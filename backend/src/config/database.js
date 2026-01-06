@@ -1,32 +1,156 @@
-// Database configuration
-// This can be extended to connect to MongoDB, PostgreSQL, MySQL, etc.
+import Database from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
-class Database {
-  constructor() {
-    this.connection = null;
-  }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  async connect() {
-    // Placeholder for database connection
-    // Example for MongoDB:
-    // const mongoose = require('mongoose');
-    // this.connection = await mongoose.connect(process.env.MONGODB_URI);
-    
-    // Example for PostgreSQL:
-    // const { Pool } = require('pg');
-    // this.connection = new Pool({ connectionString: process.env.DATABASE_URL });
-    
-    console.log('Database connection initialized');
-    return this.connection;
-  }
+const dbPath = path.join(__dirname, '../../data/consultancy.db');
+const dbDir = path.dirname(dbPath);
 
-  async disconnect() {
-    if (this.connection) {
-      // Close database connection
-      console.log('Database connection closed');
-    }
-  }
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
 }
 
-export default new Database();
+const db = new Database(dbPath);
+db.pragma('journal_mode = WAL');
 
+const initDatabase = async () => {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      name TEXT NOT NULL,
+      role TEXT DEFAULT 'editor',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS countries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      flag_image TEXT,
+      banner_image TEXT,
+      short_description TEXT,
+      description TEXT,
+      education_system TEXT,
+      cost_of_living TEXT,
+      visa_info TEXT,
+      status TEXT DEFAULT 'active',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS universities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      country_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      logo TEXT,
+      location TEXT,
+      website TEXT,
+      programs_offered TEXT,
+      tuition_fees TEXT,
+      entry_requirements TEXT,
+      intake_details TEXT,
+      scholarship_info TEXT,
+      status TEXT DEFAULT 'active',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS blogs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      featured_image TEXT,
+      short_description TEXT,
+      content TEXT,
+      category TEXT,
+      meta_title TEXT,
+      meta_description TEXT,
+      status TEXT DEFAULT 'draft',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS enquiries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      country_id INTEGER,
+      message TEXT,
+      status TEXT DEFAULT 'new',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE SET NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      key TEXT UNIQUE NOT NULL,
+      value TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_countries_slug ON countries(slug);
+    CREATE INDEX IF NOT EXISTS idx_countries_status ON countries(status);
+    CREATE INDEX IF NOT EXISTS idx_universities_slug ON universities(slug);
+    CREATE INDEX IF NOT EXISTS idx_universities_country ON universities(country_id);
+    CREATE INDEX IF NOT EXISTS idx_universities_status ON universities(status);
+    CREATE INDEX IF NOT EXISTS idx_blogs_slug ON blogs(slug);
+    CREATE INDEX IF NOT EXISTS idx_blogs_status ON blogs(status);
+    CREATE INDEX IF NOT EXISTS idx_enquiries_status ON enquiries(status);
+  `);
+
+  const checkAdmin = db.prepare('SELECT COUNT(*) as count FROM admins').get();
+  if (checkAdmin.count === 0) {
+    const bcryptModule = await import('bcryptjs');
+    const bcrypt = bcryptModule.default;
+    const hashedPassword = bcrypt.hashSync('admin123', 10);
+    db.prepare(`
+      INSERT INTO admins (email, password, name, role) 
+      VALUES (?, ?, ?, ?)
+    `).run('admin@consultancy.com', hashedPassword, 'Admin User', 'admin');
+    console.log('✅ Default admin created: admin@consultancy.com / admin123');
+  }
+
+  const settingsCount = db.prepare('SELECT COUNT(*) as count FROM settings').get();
+  if (settingsCount.count === 0) {
+    const defaultSettings = [
+      { key: 'site_name', value: 'Big Partner Consultancy' },
+      { key: 'contact_email', value: 'info@consultancy.com' },
+      { key: 'contact_phone', value: '+1 (555) 123-4567' },
+      { key: 'contact_address', value: '123 Business Avenue, Suite 100, New York, NY 10001' },
+      { key: 'whatsapp_number', value: '+15551234567' },
+      { key: 'facebook_url', value: '' },
+      { key: 'twitter_url', value: '' },
+      { key: 'instagram_url', value: '' },
+      { key: 'linkedin_url', value: '' },
+      { key: 'office_hours', value: 'Mon-Fri: 9:00 AM - 6:00 PM' }
+    ];
+    
+    const insertSetting = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)');
+    defaultSettings.forEach(setting => {
+      insertSetting.run(setting.key, setting.value);
+    });
+    console.log('✅ Default settings initialized');
+  }
+};
+
+(async () => {
+  try {
+    await initDatabase();
+    console.log('✅ Database initialized successfully');
+  } catch (error) {
+    console.error('❌ Database initialization error:', error);
+  }
+})();
+
+export default db;
