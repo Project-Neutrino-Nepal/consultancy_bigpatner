@@ -11,6 +11,7 @@ const PublicLayout = () => {
       <Outlet />
       <Footer />
       <WhatsAppWidget />
+      <WhatsAppWidget />
     </>
   );
 };
