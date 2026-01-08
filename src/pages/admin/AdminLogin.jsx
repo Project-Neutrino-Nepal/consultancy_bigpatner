@@ -70,10 +70,6 @@ const AdminLogin = () => {
               {submitting ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-          
-          <div className="login-footer">
-            <p>Default credentials: admin@consultancy.com / admin123</p>
-          </div>
         </div>
       </div>
     </div>
