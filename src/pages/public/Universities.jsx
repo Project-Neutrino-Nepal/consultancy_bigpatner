@@ -75,11 +75,11 @@ const Universities = () => {
             <div className="universities-grid">
               {filtered.map((u) => (
                 <Link to={`/universities/${u.slug}`} key={u.id} className="university-card">
+                  {u.country_name && <span className="country-badge">{u.country_name}</span>}
                   {u.logo && <img src={`${BACKEND_URL}/uploads/universities/${u.logo}`} alt={u.name} />}
                   <div className="card-content">
                     <h3>{u.name}</h3>
                     <p>{u.location}</p>
-                    <span className="meta">{u.country_name}</span>
                     <span className="read-more">View Details →</span>
                   </div>
                 </Link>

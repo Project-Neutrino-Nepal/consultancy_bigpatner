@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import { enquiriesAPI, countriesAPI, settingsAPI } from '../../services/api';
-import './Contact.css';
+import React, { useState, useEffect } from "react";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { enquiriesAPI, countriesAPI, settingsAPI } from "../../services/api";
+import "./Contact.css";
 
 const Contact = () => {
   const [countries, setCountries] = useState([]);
   const [settings, setSettings] = useState({});
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    country_id: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    country_id: "",
+    message: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    countriesAPI.getAll({ status: 'active' })
-      .then(response => setCountries(response.data))
-      .catch(error => console.error('Failed to fetch countries:', error));
+    countriesAPI
+      .getAll({ status: "active" })
+      .then((response) => setCountries(response.data))
+      .catch((error) => console.error("Failed to fetch countries:", error));
 
-    settingsAPI.getAll()
-      .then(response => setSettings(response.data))
-      .catch(error => console.error('Failed to fetch settings:', error));
+    settingsAPI
+      .getAll()
+      .then((response) => setSettings(response.data))
+      .catch((error) => console.error("Failed to fetch settings:", error));
   }, []);
 
   const handleChange = (e) => {
@@ -35,15 +36,21 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError('');
+    setError("");
     setSuccess(false);
 
     try {
       await enquiriesAPI.create(formData);
       setSuccess(true);
-      setFormData({ name: '', email: '', phone: '', country_id: '', message: '' });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        country_id: "",
+        message: "",
+      });
     } catch (err) {
-      setError('Failed to submit enquiry. Please try again.');
+      setError("Failed to submit enquiry. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -63,28 +70,34 @@ const Contact = () => {
           <div className="contact-grid">
             <div className="contact-info-section">
               <h2>Get In Touch</h2>
-              <p>Have questions? We're here to help you every step of the way.</p>
+              <p>
+                Have questions? We're here to help you every step of the way.
+              </p>
 
               <div className="contact-info-list">
                 <div className="contact-info-item">
                   <FaMapMarkerAlt className="contact-icon" />
                   <div>
                     <h4>Address</h4>
-                    <p>{settings.contact_address || '123 Business Avenue, Suite 100, New York, NY 10001'}</p>
+                    <p>
+                      Sports City: Level 2A, Gate A7, Dubai International
+                      Cricket Stadium, Dubai Sports City, Dubai, United Arab
+                      Emirates
+                    </p>
                   </div>
                 </div>
                 <div className="contact-info-item">
                   <FaPhone className="contact-icon" />
                   <div>
                     <h4>Phone</h4>
-                    <p>{settings.contact_phone || '+1 (555) 123-4567'}</p>
+                    <p>+971 50 478 9255</p>
                   </div>
                 </div>
                 <div className="contact-info-item">
                   <FaEnvelope className="contact-icon" />
                   <div>
                     <h4>Email</h4>
-                    <p>{settings.contact_email || 'info@consultancy.com'}</p>
+                    <p>{settings.contact_email || "info@consultancy.com"}</p>
                   </div>
                 </div>
               </div>
@@ -107,7 +120,7 @@ const Contact = () => {
 
               <div className="office-hours">
                 <h4>Office Hours</h4>
-                <p>{settings.office_hours || 'Mon-Fri: 9:00 AM - 6:00 PM'}</p>
+                <p>{settings.office_hours || "Mon-Fri: 9:00 AM - 6:00 PM"}</p>
               </div>
             </div>
 
@@ -115,12 +128,11 @@ const Contact = () => {
               <h2>Send Us a Message</h2>
               {success && (
                 <div className="alert alert-success">
-                  Thank you! Your enquiry has been submitted successfully. We'll get back to you soon.
+                  Thank you! Your enquiry has been submitted successfully. We'll
+                  get back to you soon.
                 </div>
               )}
-              {error && (
-                <div className="alert alert-error">{error}</div>
-              )}
+              {error && <div className="alert alert-error">{error}</div>}
               <form onSubmit={handleSubmit} className="contact-form">
                 <div className="form-group">
                   <label>Name *</label>
@@ -160,7 +172,7 @@ const Contact = () => {
                     onChange={handleChange}
                   >
                     <option value="">Select a country</option>
-                    {countries.map(country => (
+                    {countries.map((country) => (
                       <option key={country.id} value={country.id}>
                         {country.name}
                       </option>
@@ -177,8 +189,12 @@ const Contact = () => {
                     required
                   ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary" disabled={submitting}>
-                  {submitting ? 'Sending...' : 'Send Message'}
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={submitting}
+                >
+                  {submitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>
