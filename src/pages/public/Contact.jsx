@@ -80,9 +80,8 @@ const Contact = () => {
                   <div>
                     <h4>Address</h4>
                     <p>
-                      Sports City: Level 2A, Gate A7, Dubai International
-                      Cricket Stadium, Dubai Sports City, Dubai, United Arab
-                      Emirates
+                      {settings.contact_address ||
+                        "Sports City: Level 2A, Gate A7, Dubai International Cricket Stadium, Dubai Sports City, Dubai, United Arab Emirates"}
                     </p>
                   </div>
                 </div>
@@ -90,7 +89,7 @@ const Contact = () => {
                   <FaPhone className="contact-icon" />
                   <div>
                     <h4>Phone</h4>
-                    <p>+971 50 478 9255</p>
+                    <p>{settings.contact_phone || "+971 50 478 9255"}</p>
                   </div>
                 </div>
                 <div className="contact-info-item">

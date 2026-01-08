@@ -20,15 +20,20 @@ export const updateSettings = (req, res) => {
   try {
     const updates = req.body;
 
+    // Use INSERT OR REPLACE for SQLite compatibility
     const updateStmt = db.prepare(`
-      INSERT INTO settings (key, value) VALUES (?, ?)
-      ON CONFLICT(key) DO UPDATE SET value = ?, updated_at = CURRENT_TIMESTAMP
+      INSERT OR REPLACE INTO settings (key, value, updated_at) 
+      VALUES (?, ?, CURRENT_TIMESTAMP)
     `);
 
+    // Update each setting
     Object.entries(updates).forEach(([key, value]) => {
-      updateStmt.run(key, value, value);
+      // Convert value to string, allow empty strings
+      const stringValue = value !== null && value !== undefined ? String(value) : '';
+      updateStmt.run(key, stringValue);
     });
 
+    // Return updated settings
     const settings = db.prepare('SELECT * FROM settings').all();
     const settingsObject = settings.reduce((acc, setting) => {
       acc[setting.key] = setting.value;

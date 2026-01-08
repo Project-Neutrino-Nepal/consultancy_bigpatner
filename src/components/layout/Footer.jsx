@@ -31,24 +31,6 @@ const Footer = () => {
             <p>
               Your trusted partner for international education opportunities.
             </p>
-            <div className="footer-social-icons">
-              <a
-                href={settings.facebook_url || "https://facebook.com"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-social-icon"
-              >
-                <FaFacebook />
-              </a>
-              <a
-                href={settings.instagram_url || "https://instagram.com"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-social-icon"
-              >
-                <FaInstagram />
-              </a>
-            </div>
             <div className="social-links">
               {settings.facebook_url && (
                 <a
@@ -124,11 +106,11 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Contact Info</h4>
             <p>
-              Sports City: Level 2A, Gate A7, Dubai International Cricket
-              Stadium, Dubai Sports City, Dubai, United Arab Emirates
+              {settings.contact_address ||
+                "Sports City: Level 2A, Gate A7, Dubai International Cricket Stadium, Dubai Sports City, Dubai, United Arab Emirates"}
             </p>
             <p>Email: {settings.contact_email}</p>
-            <p>Phone: +971 50 478 9255</p>
+            <p>Phone: {settings.contact_phone || "+971 50 478 9255"}</p>
             {whatsappNumber && (
               <a
                 href={`https://wa.me/${whatsappNumber}`}
