@@ -158,6 +158,84 @@
   line-height: 1.7;
 }
 
+/* What We Do Section */
+.what-we-do {
+  padding: 8rem 0;
+  background: var(--bg-main);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.service-card {
+  background: var(--bg-white);
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.service-card p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Find Course CTA */
+.find-course-cta {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #f59e0b 100%);
+  color: var(--text-white);
+}
+
+.find-course-cta .cta-box {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.find-course-cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.find-course-cta p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.find-course-cta .cta-buttons {
+  margin-top: 2rem;
+}
+
+.find-course-cta .btn {
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+}
+
 /* Achievements */
 .achievements {
   padding: 5rem 0;

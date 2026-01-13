@@ -79,9 +79,10 @@ const Home = () => {
               <span>World-Class Education</span>
             </h1>
             <p className="hero-subtitle">
-              Partnering students with top international universities for a
-              successful future. We provide expert guidance for your study
-              abroad journey.
+              The BIG Academy is a Global Higher Education Services provider
+              based out of Dubai, UAE. We provide innovative global education
+              that fosters excellence in academia, accessibility, and global
+              collaboration.
             </p>
             <div className="hero-buttons">
               <Link to="/contact" className="btn btn-primary">
@@ -143,48 +144,53 @@ const Home = () => {
             </div>
             <div className="why-big-content">
               <div className="section-title" style={{ textAlign: "left" }}>
-                <h2>Why BIG Partnership</h2>
+                <h2>Why The BIG Academy</h2>
                 <p>
-                  We are dedicated to guiding students toward globally
-                  recognized universities with transparency and excellence.
+                  We deliver a hub-and-spoke model of education where students
+                  can access our curriculum from authorized satellite centers on
+                  a hybrid learning model, with pathway programs that enhance
+                  academic, language, and cultural skills.
                 </p>
               </div>
               <div className="benefits-list">
                 <div className="benefit-item">
                   <FaCheckCircle className="benefit-icon" />
                   <div>
-                    <h4>Expert Counselors</h4>
+                    <h4>Pathway Programs</h4>
                     <p>
-                      Professional guidance from experienced education
-                      consultants.
+                      Comprehensive programs including Diploma, Bachelors and
+                      Masters preparation tailored to meet specific student
+                      needs.
                     </p>
                   </div>
                 </div>
                 <div className="benefit-item">
                   <FaCheckCircle className="benefit-icon" />
                   <div>
-                    <h4>Global University Network</h4>
+                    <h4>University Partnerships</h4>
                     <p>
-                      Direct partnerships with top-tier universities worldwide.
+                      Direct partnerships with universities in the US, Canada,
+                      France, Australia, and UAE for seamless transitions.
                     </p>
                   </div>
                 </div>
                 <div className="benefit-item">
                   <FaCheckCircle className="benefit-icon" />
                   <div>
-                    <h4>End-to-End Support</h4>
+                    <h4>Global Mobility</h4>
                     <p>
-                      From university selection to visa approval and beyond.
+                      Access to international campuses and migration pathways
+                      for Partnered Universities worldwide.
                     </p>
                   </div>
                 </div>
                 <div className="benefit-item">
                   <FaCheckCircle className="benefit-icon" />
                   <div>
-                    <h4>High Visa Success Rate</h4>
+                    <h4>Quality Assurance</h4>
                     <p>
-                      Expert assistance with documentation and interview
-                      preparation.
+                      Accreditation by relevant educational authorities with
+                      regular assessments and progress monitoring.
                     </p>
                   </div>
                 </div>
@@ -242,42 +248,47 @@ const Home = () => {
       <section className="testimonials">
         <div className="container">
           <div className="section-title">
-            <h2>Student Testimonials</h2>
-            <p>What our students say about their journey with us</p>
+            <h2>Student Success Stories</h2>
+            <p>
+              What our students say about their transformative journey with The
+              BIG Academy
+            </p>
           </div>
           <div className="testimonials-grid">
             <div className="testimonial-card">
               <FaQuoteLeft className="quote-icon" />
               <p>
-                "BIG Partnership helped me get admission to my dream university
-                in the UK. Their guidance was invaluable throughout the
-                process!"
+                "The BIG Academy's pathway program prepared me perfectly for
+                university life in Canada. Their comprehensive curriculum and
+                support made my transition seamless!"
               </p>
               <div className="testimonial-author">
                 <h4>Sarah Johnson</h4>
-                <span>Oxford University, UK</span>
-              </div>
-            </div>
-            <div className="testimonial-card">
-              <FaQuoteLeft className="quote-icon" />
-              <p>
-                "The visa process was so smooth thanks to their expert team.
-                Highly recommended for anyone planning to study abroad."
-              </p>
-              <div className="testimonial-author">
-                <h4>Michael Chen</h4>
                 <span>University of Toronto, Canada</span>
               </div>
             </div>
             <div className="testimonial-card">
               <FaQuoteLeft className="quote-icon" />
               <p>
-                "From university selection to visa approval, they supported me
-                every step of the way. Truly professional service!"
+                "Through The BIG Academy's global network, I was able to access
+                world-class education. The hybrid learning model and university
+                partnerships made all the difference."
+              </p>
+              <div className="testimonial-author">
+                <h4>Michael Chen</h4>
+                <span>Harvard University, USA</span>
+              </div>
+            </div>
+            <div className="testimonial-card">
+              <FaQuoteLeft className="quote-icon" />
+              <p>
+                "The Academy's focus on academic excellence and cultural
+                integration helped me thrive in my chosen field. Their migration
+                pathways opened doors I never knew existed!"
               </p>
               <div className="testimonial-author">
                 <h4>Priya Sharma</h4>
-                <span>Monash University, Australia</span>
+                <span>University of Melbourne, Australia</span>
               </div>
             </div>
           </div>
@@ -287,13 +298,14 @@ const Home = () => {
       <section className="contact-cta">
         <div className="container">
           <div className="cta-box">
-            <h2>Ready to Start Your Journey?</h2>
+            <h2>Find your Course Now</h2>
             <p>
-              Book your free counseling session with our expert advisors today.
+              "Grab The Chance to enrich your future with Quality Education at
+              The Big Academy"
             </p>
             <div className="cta-buttons">
               <Link to="/contact" className="btn btn-primary">
-                Book Consultation
+                Get Started
               </Link>
               {whatsappNumber && (
                 <a
